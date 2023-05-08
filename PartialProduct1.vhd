@@ -27,7 +27,7 @@ signal twosoutput : std_logic_vector(7 downto 0); -- Out temp for 2s comp
 signal sign : std_logic; -- Has a sign based on logic line below
 
 begin
-sign <= encoder(0) ;
+sign <= encoder_value(0) ;
 
 U1: twos_complement port map(inP, twosoutput);
 U2: left_shift port map(twosoutput, encoder_value, shiftoutput);
