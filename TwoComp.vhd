@@ -6,8 +6,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity twos_complement is
   port (
-    a        : in  std_logic_vector(7 downto 0);
-    twos_comp_flag : in std_logic;
+    a        : in  std_logic_vector(7 downto 0); -- Has inputs A 
     twoscomp : out std_logic_vector(7 downto 0)
   );
 end entity twos_complement;
@@ -25,12 +24,11 @@ component FullAdder is
 end component;
 
  
-  signal outTemp      : std_logic_vector(7 downto 0);
+  signal outTemp      : std_logic_vector(7 downto 0); -- Used as temp sums
   signal Cout : std_logic_vector ( 7 downto 0);
   
 
 begin
-    --add sign to binary number
 
   U1: NOT2 port map(a(0) , outTemp(0));
    U2: NOT2 port map(a(1) , outTemp(1));
