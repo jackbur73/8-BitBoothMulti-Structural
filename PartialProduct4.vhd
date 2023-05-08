@@ -19,7 +19,6 @@ end component;
 component twos_complement
 port (
     a        : in  std_logic_vector(7 downto 0);
-    twos_comp_flag : in std_logic;
     twoscomp : out std_logic_vector(7 downto 0)
   );
 end component;
@@ -30,9 +29,8 @@ signal sign : std_logic; -- sign
 signal twosoutput : std_logic_vector(7 downto 0); -- twos out put temp
 
 begin -- port mapping
-U1: twos_complement port map(inP, encoder_value(0), twosoutput);
-sign <= '0' when encoder_value = "000" else '0' when encoder_value = "001" else twosoutput(7);
-  -- This logic line tells if sign is postive or nefative
+U1: twos_complement port map(inP,  twosoutput);
+sign <= encoder_value(0);
 U2: left_shift port map(twosoutput, encoder_value, shiftoutput);
 
 
