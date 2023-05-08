@@ -18,9 +18,8 @@ end component;
 
 component twos_complement
 port (
-    a        : in  std_logic_vector(7 downto 0); -- 8 bit array in
-    twos_comp_flag : in std_logic; -- Flag
-    twoscomp : out std_logic_vector(7 downto 0) -- 2s comp output
+    a : in  std_logic_vector(7 downto 0);
+    twoscomp : out std_logic_vector(7 downto 0)
   );
 end component;
 
@@ -31,8 +30,7 @@ signal sign : std_logic; -- sign
 begin
 
 U1: twos_complement port map(inP, encoder_value(0), twosoutput); -- calls 2 comp
-sign <= '0' when encoder_value = "000" else '0' when encoder_value = "001" else twosoutput(7);
-  -- Logic line for left shift based on encoder
+sign <= encoder_value(0);
 U2: left_shift port map(twosoutput, encoder_value, shiftoutput);
 
 
