@@ -29,7 +29,7 @@ signal sign : std_logic; -- sign
 
 begin
 
-U1: twos_complement port map(inP, encoder_value(0), twosoutput); -- calls 2 comp
+U1: twos_complement port map(inP, twosoutput); -- calls 2 comp
 sign <= encoder_value(0);
 U2: left_shift port map(twosoutput, encoder_value, shiftoutput);
 
