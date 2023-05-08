@@ -1,43 +1,14 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 04/23/2023 07:58:04 PM
--- Design Name: 
--- Module Name: Partial_Product3 - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 entity PP3 is
-  Port (inP : in std_logic_vector(7 downto 0);
-        encoder_value : in std_logic_vector(2 downto 0);
-        outP : out std_logic_vector(15 downto 0));
+  Port (inP : in std_logic_vector(7 downto 0); -- Takes in a 8 bit array
+        encoder_value : in std_logic_vector(2 downto 0); -- takes in a 3 bit encode value
+        outP : out std_logic_vector(15 downto 0)); -- 16 bit out
 end PP3;
 
-architecture Behavioral of PP3 is
+architecture Behavioral of PP3 is -- Calls left shift
 component left_shift
 Port (x : in std_logic_vector(7 downto 0);
         left_shift_flag : in std_logic_vector(2 downto 0);
@@ -45,7 +16,7 @@ Port (x : in std_logic_vector(7 downto 0);
 end component;
 
 
-component twos_complement
+component twos_complement -- Calls 2 comp
 port (
     a        : in  std_logic_vector(7 downto 0);
     twos_comp_flag : in std_logic;
@@ -53,18 +24,21 @@ port (
   );
 end component;
 
-signal twosoutput : std_logic_vector(7 downto 0);
-signal shiftoutput : std_logic_vector(7 downto 0);
-signal sign : std_logic;
+  
+signal shiftoutput : std_logic_vector(7 downto 0); -- shift output temp
+signal twosoutput : std_logic_vector(7 downto 0); -- 2s comp output temp
+signal sign : std_logic; -- sign
 
 begin
+  -- Port mapping with 2 comp and left shift
 U1: twos_complement port map(inP, encoder_value(0), twosoutput);
-sign <= '0' when encoder_value = "000" else '0' when encoder_value = "001" else twosoutput(7);
+sign <= '0' when encoder_value = "000" else '0' when encoder_value = "001" else twosoutput(7); 
+  -- This logic tells if the encoder value postive or negative
 U2: left_shift port map(twosoutput, encoder_value, shiftoutput);
 
 
 
-outP(3 downto 0) <= ('0', '0','0', '0');
+outP(3 downto 0) <= ('0', '0','0', '0'); -- Skips the first 4 since left shift 2 twice because of booth algo
 outP(11 downto 4) <= shiftoutput;
 outp(15 downto 12) <= (sign, sign, sign, sign);
 
