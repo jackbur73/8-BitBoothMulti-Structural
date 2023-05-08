@@ -18,7 +18,6 @@ end component;
 component twos_complement -- Calls 2 comp if needed
 port (
     a : in  std_logic_vector(7 downto 0);
-    twos_comp_flag : in std_logic; -- This is an element either 1 or 0
     twoscomp : out std_logic_vector(7 downto 0)
   );
 end component;
@@ -28,10 +27,9 @@ signal twosoutput : std_logic_vector(7 downto 0); -- Out temp for 2s comp
 signal sign : std_logic; -- Has a sign based on logic line below
 
 begin
+sign <= encoder(0) ;
 
-U1: twos_complement port map(inP, encoder_value(0), twosoutput);
-sign <= '0' when encoder_value = "000" else '0' when encoder_value = "001" else twosoutput(7);
-  -- Logic line for the sign
+U1: twos_complement port map(inP, twosoutput);
 U2: left_shift port map(twosoutput, encoder_value, shiftoutput);
 
 
